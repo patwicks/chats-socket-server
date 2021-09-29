@@ -10,9 +10,9 @@ server.listen(port, () => {
 
 let users = [];
 
-const addUser = (userId, socketId) => {
+const addUser = (userId, userType, socketId) => {
   !users.some((user) => user.userId === userId) &&
-    users.push({ userId, socketId });
+    users.push({ userId, userType, socketId });
   console.log(...users);
 };
 
@@ -29,8 +29,8 @@ io.on("connection", (socket) => {
   //   console.log("a user connected.");
 
   //take userId and socketId from user
-  socket.on("addUser", (userId) => {
-    addUser(userId, socket.id);
+  socket.on("addUser", (userId, userType) => {
+    addUser(userId, userType, socket.id);
     io.emit("getUsers", users);
   });
 
